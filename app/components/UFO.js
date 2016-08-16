@@ -1,6 +1,6 @@
-import react from 'react';
+import React from 'react';
 
-class UFO extends React.Component() {
+class UFO extends React.Component {
   render() {
     const ufoStyle={transform: 'translate(' + this.props.ufo.x + ')' };
     return <p style={ufoStyle}>SHIP</p>;
@@ -8,3 +8,4 @@ class UFO extends React.Component() {
 }
 
 export default UFO;
+

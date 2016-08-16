@@ -1,39 +1,78 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { createStore } from 'redux';
+import {
+  left,
+  right,
+  moveLeft,
+  moveRight,
+} from '../actions';
 import rootReducer from '../reducers/rootReducer';
 import ShipAnimated from '../containers/AnimateShip';
 
-class Game extends React.Component {
+class GamePlay extends React.Component {
   constructor(props) {
     super(props);
   }
 
   componentDidMount() {
-    document.addEventListener(keyPress);
-    update();
+    document.addEventListener('keypress', this.handleKeypress);
+    document.addEventListener('keyup', this.handleKeyUp);
+    // this.update();
   }
 
   componentWillUnmount() {
-    document.removeEventListener(keypress);
+    document.removeEventListener('keypress', this.handleKeypress);
+    document.removeEventListener('keyup', this.handleKeyUp);
+  }
+
+  handleKeypress = (e) => {
+    if (e.key === '[') {
+      this.props.moveLeft();
+    }
+
+    if (e.key === ']') {
+      this.props.moveRight();
+    }
+  }
+
+  handleKeyUp = (e) => {
+    console.log('key up ', e);
   }
 
   update = () => {
-    return "monster";
+    if (this.props.ship.xVelocity === -1) {
+      console.log(this.props);
+      this.props.left();
+    } else if (this.props.ship.xVelocity === 1) {
+      this.props.moveRight();
+    }
   }
 
-  render() {
 
+  render() {
    const gameStyle = {
       width: '100%',
-      height: '100%',
+      height: '900px',
       backgroundColor: 'LightYellow'
     };
 
-    return <div style={gameStyle}><p>{"Rotten"}</p><ShipAnimated /></div>;
+    return <div style={gameStyle}>< ShipAnimated/></div>;
   }
 }
+const mapStateToProps = (state) => {
+  return state;
+};
 
-const initialState = { ship: { x: 600, y: 600 }, ufo: { x: 800, y: 100 } };
-let store = createStore(rootReducer, initialState);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    left: () => dispatch(left()),
+    right: () => dispatch(right()),
+    moveLeft: () => dispatch(moveLeft()),
+    moveRight: () => dispatch(moveRight())
+  };
+};
+
+const Game = connect(mapStateToProps, mapDispatchToProps)(GamePlay);
 
 export default Game;

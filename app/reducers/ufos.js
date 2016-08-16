@@ -1,6 +1,6 @@
 import { ADD_UFO } from '../actions';
 
-const ufos = (state = [], action) => {
+function ufos(state = [], action) {
   switch(action.type) {
     case ADD_UFO:
       return Object.assign([], state,
