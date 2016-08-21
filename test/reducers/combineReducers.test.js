@@ -1,27 +1,31 @@
 import expect from 'expect';
 import { createStore } from 'redux';
 import rootReducer from '../../app/reducers/rootReducer';
-import { left, right, fire, addUFO } from '../../app/actions';
+import { thrustLeft, thrustRight, fire, addUFO } from '../../app/actions';
 
-describe('ship reducer', () => {
+describe('rootReducer ship', () => {
   let store;
 
   beforeEach(() => {
-    const initialState = { ship: { x: 400, y: 800 } };
+    const initialState = {
+      ship: {
+        xVelocity: 0
+      }
+    };
 
     store = createStore(rootReducer, initialState);
   });
 
-  it('moves left', () => {
-    store.dispatch(left());
+  it('thrustLeft', () => {
+    store.dispatch(thrustLeft());
 
     const stateAfter = store.getState();
 
-    expect(stateAfter.ship).toEqual({ x: 399, y: 800 });
+    expect(stateAfter.ship).toEqual({xVelocity: -1});
   });
 });
 
-describe('bullets reducer', () => {
+describe('rootReducer bullets', () => {
   let store;
 
   beforeEach(() => {

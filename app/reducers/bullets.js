@@ -2,10 +2,10 @@ import { FIRE } from '../actions';
 
 function bullets(state = [], action) {
   switch(action.type) {
-    case 'FIRE':
+    case FIRE:
       if (action.payload.x && action.payload.y) {  
         return Object.assign([], state, 
-          [...state, {x: action.payload.x, y: action.payload.y}]
+          [{x: action.payload.x, y: action.payload.y}]
         );
       } else {
         return state;

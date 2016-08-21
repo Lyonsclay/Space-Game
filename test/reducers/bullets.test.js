@@ -1,7 +1,7 @@
 import expect from 'expect';
 import { createStore } from 'redux';
 import rootReducer from '../../app/reducers/rootReducer';
-import { fire, addUFO } from '../../app/actions';
+import { fire } from '../../app/actions';
 
 describe('bullets', () => {
   let store;
