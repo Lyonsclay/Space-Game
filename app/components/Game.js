@@ -2,8 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { createStore } from 'redux';
 import {
-  left,
-  right,
+  screenSize,
+  thrustLeft,
+  thrustRight,
+  stop,
   moveLeft,
   moveRight,
 } from '../actions';
@@ -15,38 +17,45 @@ class GamePlay extends React.Component {
     super(props);
   }
 
+  componentWillMount() {
+    this.props.screenSize(window.innerWidth, window.innerHeight);
+  }
+
   componentDidMount() {
     document.addEventListener('keypress', this.handleKeypress);
     document.addEventListener('keyup', this.handleKeyUp);
-    // this.update();
+    this.update();
   }
 
   componentWillUnmount() {
-    document.removeEventListener('keypress', this.handleKeypress);
-    document.removeEventListener('keyup', this.handleKeyUp);
+    document.rethrustEventListener('keypress', this.handleKeypress);
+    document.rethrustEventListener('keyup', this.handleKeyUp);
   }
 
   handleKeypress = (e) => {
     if (e.key === '[') {
-      this.props.moveLeft();
+      this.props.thrustLeft();
     }
 
     if (e.key === ']') {
-      this.props.moveRight();
+      this.props.thrustRight();
     }
   }
 
   handleKeyUp = (e) => {
-    console.log('key up ', e);
+    if (e.key === '[' || e.key === ']') {
+      this.props.stop();
+    }
   }
 
   update = () => {
     if (this.props.ship.xVelocity === -1) {
-      console.log(this.props);
-      this.props.left();
+      this.props.moveLeft();
     } else if (this.props.ship.xVelocity === 1) {
       this.props.moveRight();
     }
+
+    requestAnimationFrame(this.update);
   }
 
 
@@ -66,8 +75,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    left: () => dispatch(left()),
-    right: () => dispatch(right()),
+    screenSize: (w, h) => dispatch(screenSize(w, h)),
+    thrustLeft: () => dispatch(thrustLeft()),
+    thrustRight: () => dispatch(thrustRight()),
+    stop: () => dispatch(stop()),
     moveLeft: () => dispatch(moveLeft()),
     moveRight: () => dispatch(moveRight())
   };

@@ -5,6 +5,6 @@ const mapStateToProps = (state) => {
   return state.ship;
 };
 
-const ShipComponent = connect(mapStateToProps)(Ship);
+const ShipAnimated = connect(mapStateToProps)(Ship);
 
-export default ShipComponent;
+export default ShipAnimated;

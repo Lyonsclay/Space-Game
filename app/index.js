@@ -18,10 +18,12 @@ const initialState = {
   ship: {
     xVelocity: 0,
     yVelocity: 0,
-    x: 600,
-    y: 600
+    x: 0,
+    y: 0
   }
 };
+console.log(initialState);
+
 
 const update = () => {
   const state = store.getState();
@@ -33,10 +35,16 @@ const update = () => {
   }
 };
 
+const devTools = () => {
 
-const store = createStore(rootReducer, initialState);
+};
+
+const store = createStore(
+  rootReducer,
+  initialState,
+  window.devToolsExtension ? window.devToolsExtension() : undefined
+);
 
 // store.subscribe(update);
 
 render(<GamePlay />, document.getElementById('app'));
-

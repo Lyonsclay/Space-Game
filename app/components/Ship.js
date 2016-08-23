@@ -19,7 +19,7 @@ const Ship = (props) => {
     style.sheet.insertRule(keyframeMotion, 0);
 
 
-    moveShipStyle = {
+    const moveShipStyle = {
       animationName: 'motion',
       animationTimingFunction: 'ease-in-out',
       animationDuration: '0.6s',
@@ -31,18 +31,18 @@ const Ship = (props) => {
 
   const shipStaticStyle = {
     fontSize: '40px',
-    transform: 'translate(' + props.x.toString() + 'px' + ')',
+    transform: `translate(${props.x.toString()}px, ${props.y.toString()}px)`,
     backgroundColor: 'LightBlue',
     width: '100px',
     height: '50px'
   };
 
-  const shipStyle = Object.assign({}, shipStaticStyle, moveShipStyle);
+  const shipStyle = Object.assign(shipStaticStyle, moveShipStyle);
 
   console.log(shipStyle);
-  console.log(props);
+  console.log('this props rocks', props.x, props.y);
 
-  return <div style={shipStyle}>SHIP</div>;
+  return <div style={shipStaticStyle}>SHIP</div>;
 };
 
 export default Ship;
