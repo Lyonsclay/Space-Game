@@ -4,6 +4,7 @@ export const FIRE = 'FIRE';
 export const THRUST_LEFT = 'THRUST_LEFT';
 export const THRUST_RIGHT = 'THRUST_RIGHT';
 export const STOP = 'STOP';
+export const SHIP_STOPPED = 'SHIP_STOPPED';
 export const MOVE_LEFT = 'MOVE_LEFT';
 export const MOVE_RIGHT = 'MOVE_RIGHT';
 
@@ -28,6 +29,10 @@ export function thrustLeft() {
 
 export function stop() {
   return { type: STOP };
+}
+
+export function shipStopped() {
+  return { type: SHIP_STOPPED };
 }
 
 export function moveLeft() {

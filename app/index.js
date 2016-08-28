@@ -16,14 +16,15 @@ const GamePlay = () => {
 
 const initialState = {
   ship: {
+    xMax: 0,
+    yMax: 0,
     xVelocity: 0,
     yVelocity: 0,
     x: 0,
-    y: 0
+    y: 0,
+    moving: false
   }
 };
-console.log(initialState);
-
 
 const update = () => {
   const state = store.getState();
@@ -46,5 +47,7 @@ const store = createStore(
 );
 
 // store.subscribe(update);
+import { Animation } from 'react-web-animation';
 
 render(<GamePlay />, document.getElementById('app'));
+// render(<Ship />, document.getElementById('app'));

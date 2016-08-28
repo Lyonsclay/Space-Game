@@ -1,10 +1,17 @@
 import { connect } from 'react-redux';
-import Ship from '../components/Ship';
+import { shipStopped } from '../actions';
+import Ship from '../components/Ship.jsx';
 
 const mapStateToProps = (state) => {
   return state.ship;
 };
 
-const ShipAnimated = connect(mapStateToProps)(Ship);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    shipStopped: () => dispatch(shipStopped())
+  };
+};
+
+const ShipAnimated = connect(mapStateToProps, mapDispatchToProps)(Ship);
 
 export default ShipAnimated;
