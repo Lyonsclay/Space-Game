@@ -51,7 +51,7 @@ class GamePlay extends React.Component {
   update = () => {
     if (this.props.ship.xVelocity === -1) {
       this.props.moveLeft();
-    } else if (this.props.ship.xVelocity === 1) {
+    } else if (this.props.ship.xVelocity === 1){
       this.props.moveRight();
     }
 
@@ -60,7 +60,7 @@ class GamePlay extends React.Component {
 
 
   render() {
-   const gameStyle = {
+    const gameStyle = {
       width: '100%',
       height: '900px',
       backgroundColor: 'LightYellow'

@@ -6,21 +6,23 @@ const Ship = (props) => {
   if (props.velocityX !== 0) {
     console.log('fifty cents'); 
     const xNext = props.x;
-    const x = x - (props.xVelocity * Math.random() * 100);
+    const x = props.x - props.xVelocity * 20;
+    console.log(x, props);
 
-    const keyframeMotion = `@-webkit-keyframes motion {
+    const motion = 'motion' + (Math.round(Math.random() * 1000)).toString();
+    const keyframeMotion = `keyframes ${motion} {
       0% {
-        transform: -webkit-translateX(${x}px)
+        transform: translateX(${x}px)
       }
-      100% { transform: -webkit-translateX(${xNext}px)}
+      100% { transform: translateX(${xNext}px)}
     }`;
     const style = document.createElement('style');
     document.head.appendChild(style);
-    style.sheet.insertRule(keyframeMotion, 0);
+    style.sheet.insertRule(keyframeMotion, style.sheet.cssRules.length);
 
 
     const moveShipStyle = {
-      animationName: 'motion',
+      animationName: motion,
       animationTimingFunction: 'ease-in-out',
       animationDuration: '0.6s',
       animationDelay: '0.0s',
@@ -31,13 +33,13 @@ const Ship = (props) => {
 
   const shipStaticStyle = {
     fontSize: '40px',
-    transform: `translate(${props.x.toString()}px, ${props.y.toString()}px)`,
+    // transform: `translate3d(${props.x.toString()}px, ${props.y.toString()}px, 0px)`,
     backgroundColor: 'LightBlue',
     width: '100px',
     height: '50px'
   };
 
-  const shipStyle = Object.assign(shipStaticStyle, moveShipStyle);
+  const shipStyle = Object.assign({}, shipStaticStyle, moveShipStyle);
 
   console.log(shipStyle);
   console.log('this props rocks', props.x, props.y);
