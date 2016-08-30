@@ -42,12 +42,12 @@ function ship(state = {}, action) {
   case MOVE_LEFT:
     return Object.assign({}, state, {
       moving: true,
-      x: state.x - 20
+      x: state.x - 6
     });
   case MOVE_RIGHT:
     return Object.assign({}, state, {
       moving: true,
-      x: state.x + 20
+      x: state.x + 6
     });
   default:
     return state;

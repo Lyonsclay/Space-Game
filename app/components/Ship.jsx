@@ -1,38 +1,100 @@
 import React from 'react';
-import { Animation } from 'react-web-animation';
+/* import styles from '../css/ship.css'; */
+require('../css/ship.css');
 
-const Ship = (props) => {
-  const x = 0;
-  const xNext = (props.xVelocity + 1) ? 20 : -20;
-  console.log('xNext', xNext, 'props.moving ', props.moving, ' xVelocity ', props.xVelocity);
-  const moveShip = !props.moving && (props.xVelocity != 0);
-  const keyFrames = moveShip ? [{
-    transform: `translateX(${x}px)`
-  }, {
-    transform: `translateX(${xNext}px)`
-  }] : [];
+/* const Ship = (props) => {*/
+class Ship extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { initialStyle: {} };
+  }
 
-  const timing = moveShip ? {
-    duration: 150,
-    iterations: 1,
-    fill: 'forwards'
-  } : {};
+  /* shouldComponentUpdate(nextProps, nextState) {
+    *   return nextProps.xVelocity !== 0;
+    * }
+  */
 
-  const onFinish = () => {
-    props.shipStopped();
-  };
+  componentWillMount() {
 
-  console.log('keyFrames', props.moving, keyFrames);
+  }
 
-  return (
-    <Animation keyframes={keyFrames} timing={timing}>
-      <svg width={props.xMax} height={props.yMax}>
-        <circle id="circle" r="25px" cx={props.x} cy={props.y} fill="orange" />
+  componentDidMount() {
+    this.setState({
+      initialStyle: {
+        cx: this.props.xMax/2,
+        cy: this.props.yMax/2
+      }
+    });
+  }
+
+  render() {
+    const x = 0;
+    const xNext = (this.props.xVelocity + 1) ? 20 : -20;
+    const movingShip = !this.props.moving && (this.props.xVelocity != 0);
+
+    const leftStyle = {
+      transition: '1200ms',
+      transform: `translate3d(-${this.props.xMax/2}px, 0%, 0px)`,
+      fill: 'orange'
+    };
+
+    const rightStyle = {
+      transition: 'transform 1200ms, fill 2s',
+      transform: `translate3d(${this.props.xMax/2}px, 0%, 0px)`,
+      fill: 'cyan'
+    };
+
+    const stopStyle = {
+      transition: 'transform 100s, fill 2s',
+      transform: 'translateX(0%)',
+      fill: 'white'
+    };
+
+    const shipStyle = () => {
+      switch (this.props.xVelocity) {
+        case -1:
+          return leftStyle;
+        case 1:
+          return rightStyle;
+        default:
+          return stopStyle;
+      }
+    };
+
+    const className = () => {
+      if (this.props.xVelocity === 0) {
+        /* return styles.shipStoped;*/
+        return 'shipStopped';
+      } else {
+        /* return styles.ship;*/
+        return 'ship';
+      }
+    }
+    console.log('classy name this ', className());
+
+    const cx = (this.props.xMax/2).toString() + 'px';
+    const cy = (this.props.yMax/2).toString() + 'px';
+
+    console.log('shipStyle : ', shipStyle());
+    console.log('className : ', className());
+
+    return (
+      <svg width={this.props.xMax} height={this.props.yMax}>
+        <g  >
+          <circle
+            style={shipStyle()}
+            id="circle"
+            r="25px"
+            cx={this.props.xMax/2}
+            cy={this.props.yMax/2}
+            stroke='gray'
+            fill='white'
+            strokeWidth='2px'
+          />
+        </g>
       </svg>
-    </Animation>
-  );
-
-  return null;
+    );
+  }
 };
 
 export default Ship;

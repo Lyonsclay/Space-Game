@@ -24,7 +24,6 @@ class GamePlay extends React.Component {
   componentDidMount() {
     document.addEventListener('keypress', this.handleKeypress);
     document.addEventListener('keyup', this.handleKeyUp);
-    this.update();
   }
 
   componentWillUnmount() {
@@ -58,17 +57,17 @@ class GamePlay extends React.Component {
     requestAnimationFrame(this.update);
   }
 
-
   render() {
     const gameStyle = {
       width: '100%',
-      height: '900px',
-      backgroundColor: 'LightYellow'
+      height: '100%',
+      backgroundColor: 'salmon'
     };
 
     return <div style={gameStyle}>< ShipAnimated/></div>;
   }
 }
+
 const mapStateToProps = (state) => {
   return state;
 };

@@ -1,6 +1,5 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { ReactDOMServer } from 'react-dom/server';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import rootReducer from './reducers/rootReducer';
@@ -47,7 +46,6 @@ const store = createStore(
 );
 
 // store.subscribe(update);
-import { Animation } from 'react-web-animation';
 
 render(<GamePlay />, document.getElementById('app'));
 // render(<Ship />, document.getElementById('app'));
