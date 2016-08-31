@@ -1,6 +1,5 @@
 import React from 'react';
 /* import styles from '../css/ship.css'; */
-require('../css/ship.css');
 
 /* const Ship = (props) => {*/
 class Ship extends React.Component {
@@ -19,10 +18,9 @@ class Ship extends React.Component {
   }
 
   componentDidMount() {
+    this.props.moveLeft();
     this.setState({
       initialStyle: {
-        cx: this.props.xMax/2,
-        cy: this.props.yMax/2
       }
     });
   }
@@ -45,9 +43,24 @@ class Ship extends React.Component {
     };
 
     const stopStyle = {
-      transition: 'transform 100s, fill 2s',
+      transition: 'transform 1000s, fill 2s',
       transform: 'translateX(0%)',
       fill: 'white'
+    };
+
+    const getCoords = () => {
+      let box;
+
+      if (this.circle) {
+        box = this.circle.getBoundingClientRect();
+      } else {
+        box = { cx, cy};
+      }
+
+      return {
+        cx: box.left,
+        cy: box.top 
+      };
     };
 
     const shipStyle = () => {
@@ -60,35 +73,30 @@ class Ship extends React.Component {
           return stopStyle;
       }
     };
-
-    const className = () => {
-      if (this.props.xVelocity === 0) {
-        /* return styles.shipStoped;*/
-        return 'shipStopped';
-      } else {
-        /* return styles.ship;*/
-        return 'ship';
-      }
-    }
-    console.log('classy name this ', className());
-
     const cx = (this.props.xMax/2).toString() + 'px';
     const cy = (this.props.yMax/2).toString() + 'px';
 
-    console.log('shipStyle : ', shipStyle());
-    console.log('className : ', className());
 
     return (
       <svg width={this.props.xMax} height={this.props.yMax}>
         <g  >
-          <circle
+           <circle
             style={shipStyle()}
             id="circle"
             r="25px"
-            cx={this.props.xMax/2}
-            cy={this.props.yMax/2}
+            cx={cx}
+            cy={cy}
             stroke='gray'
             fill='white'
+            strokeWidth='2px'
+            ref={(ref) => this.circle = ref}
+          />
+         <circle
+            r="29px"
+            cx={getCoords().cx}
+            cy={550}
+            stroke='brown'
+            fill='pink'
             strokeWidth='2px'
           />
         </g>

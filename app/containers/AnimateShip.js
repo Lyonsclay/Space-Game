@@ -1,5 +1,9 @@
 import { connect } from 'react-redux';
-import { shipStopped } from '../actions';
+import {
+  shipStopped,
+  moveLeft,
+  moveRight
+} from '../actions';
 import Ship from '../components/Ship.jsx';
 
 const mapStateToProps = (state) => {
@@ -8,7 +12,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    shipStopped: () => dispatch(shipStopped())
+    shipStopped: () => dispatch(shipStopped()),
+    moveLeft: () => dispatch(moveLeft()),
+    moveRight: () => dispatch(moveRight())
   };
 };
 

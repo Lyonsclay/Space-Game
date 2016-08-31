@@ -24,7 +24,8 @@
   "homepage": "https://github.com/Lyonsclay/UFO-Game#readme",
   "dependencies": {
     "immutable": "^3.8.1",
-    "react": "^15.3.1"
+    "react": "^15.3.1",
+    "react-dom": "^15.3.1"
   },
   "devDependencies": {
     "babel-core": "^6.4.5",
