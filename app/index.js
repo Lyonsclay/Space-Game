@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import rootReducer from './reducers/rootReducer';
 import Game from './components/Game';
+import SingleApp from './components/SingleApp.jsx';
 import {
   left,
   right
@@ -25,20 +26,6 @@ const initialState = {
   }
 };
 
-const update = () => {
-  const state = store.getState();
-
-  if (state.ship.xVelocity === -1) {
-    store.dispatch(left());
-  } else if (state.ship.xVelocity === 1) {
-    store.dispatch(right());
-  }
-};
-
-const devTools = () => {
-
-};
-
 const store = createStore(
   rootReducer,
   initialState,
@@ -47,5 +34,5 @@ const store = createStore(
 
 // store.subscribe(update);
 
-render(<GamePlay />, document.getElementById('app'));
-// render(<Ship />, document.getElementById('app'));
+// render(<GamePlay />, document.getElementById('app'));
+render(<SingleApp />, document.getElementById('app'));

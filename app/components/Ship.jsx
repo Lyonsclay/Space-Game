@@ -5,30 +5,62 @@ import React from 'react';
 class Ship extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { initialStyle: {} };
-  }
-
-  /* shouldComponentUpdate(nextProps, nextState) {
-    *   return nextProps.xVelocity !== 0;
-    * }
-  */
-
-  componentWillMount() {
-
+    console.log('window night ', window.innerWidth, window.innerHeight);
+    this.state = {
+      cxMirror: this.props.xMax/2,
+      cx: this.props.xMax/2,
+      cy: this.props.yMax/2
+    }
   }
 
   componentDidMount() {
-    this.props.moveLeft();
+    this.interval = setInterval(this.update, 300);
     this.setState({
-      initialStyle: {
-      }
+      circle: 1
     });
   }
 
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
+  update = () => {
+    /* this.props.moveLeft();*/
+    if (this.circle){
+      /* requestAnimationFrame(this.update);*/
+      this.setState({
+        circle: this.state.circle++
+      })
+    }
+  }
+
   render() {
-    const x = 0;
-    const xNext = (this.props.xVelocity + 1) ? 20 : -20;
-    const movingShip = !this.props.moving && (this.props.xVelocity != 0);
+
+    const getCircleX = () => {
+      let box = {};
+
+      if (this.circle) {
+        box = this.circle.getBoundingClientRect();
+        console.log('box ', box)
+      }
+
+      return (box.left || this.state.cx) - cx;
+    };
+
+    const getCircleColor = () => {
+      let box = {};
+
+      if (this.circle) {
+        box = this.circle
+      } 
+
+      return box.fill || 'thistle';
+    }
+
+    console.log('getCircleColor : ', getCircleColor());
+
+    const cx = (this.props.xMax/2);
+    const cy = (this.props.yMax/2);
 
     const leftStyle = {
       transition: '1200ms',
@@ -38,7 +70,7 @@ class Ship extends React.Component {
 
     const rightStyle = {
       transition: 'transform 1200ms, fill 2s',
-      transform: `translate3d(${this.props.xMax/2}px, 0%, 0px)`,
+      transform: `translate3d(${this.props.xMax/2}px, 0px, 0px)`,
       fill: 'cyan'
     };
 
@@ -48,20 +80,11 @@ class Ship extends React.Component {
       fill: 'white'
     };
 
-    const getCoords = () => {
-      let box;
-
-      if (this.circle) {
-        box = this.circle.getBoundingClientRect();
-      } else {
-        box = { cx, cy};
-      }
-
-      return {
-        cx: box.left,
-        cy: box.top 
-      };
-    };
+    const shadowStyle = {
+      transition: 'transform 1200ms, fill 2s',
+      transform: `translate3d(${getCircleX()}px, 0px, 0px)`,
+      fill: getCircleColor()
+    }
 
     const shipStyle = () => {
       switch (this.props.xVelocity) {
@@ -73,14 +96,20 @@ class Ship extends React.Component {
           return stopStyle;
       }
     };
-    const cx = (this.props.xMax/2).toString() + 'px';
-    const cy = (this.props.yMax/2).toString() + 'px';
-
 
     return (
       <svg width={this.props.xMax} height={this.props.yMax}>
         <g  >
-           <circle
+          <circle
+            style={shadowStyle}
+            r="35px"
+            cx={cx + 18}
+            cy={cy}
+            stroke='gray'
+            fill='thistle'
+            strokeWidth='2px'
+          />
+          <circle
             style={shipStyle()}
             id="circle"
             r="25px"
@@ -90,14 +119,6 @@ class Ship extends React.Component {
             fill='white'
             strokeWidth='2px'
             ref={(ref) => this.circle = ref}
-          />
-         <circle
-            r="29px"
-            cx={getCoords().cx}
-            cy={550}
-            stroke='brown'
-            fill='pink'
-            strokeWidth='2px'
           />
         </g>
       </svg>
