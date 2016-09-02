@@ -2,21 +2,9 @@ import React from 'react';
 import ReactDOM, { render } from 'react-dom';
 
 class Shadow extends React.Component {
-  componentDidMount() {
-    this.interval = setInterval(this.update, 300);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.interval);
-  }
-
-  update = () => {
-    this.setState({});
-  };
-
   render() {
     const cx = this.props.xMax/2;
-    const cy = this.props.yMax/2;
+    const cy = this.props.yMax * 0.6;
 
     const getCircleX = () => {
       let circle = {};
@@ -25,7 +13,7 @@ class Shadow extends React.Component {
         circle = this.circle.getBoundingClientRect();
       }
 
-      return circle.left - cx || -18;
+      return circle.left - cx + 12.5 || -18;
     };
 
     const getShadowColor = () => {
@@ -48,27 +36,39 @@ class Shadow extends React.Component {
       }
     };
 
+    const getShadowRx = () => {
+      switch (this.props.xVelocity) {
+        case 0:
+          return '35px';
+        default:
+          return '55px';
+      }
+    };
+
     const leftStyle = {
-      transition: 'transform 1200ms, fill 1500ms',
+      transition: 'transform 1000ms, fill 1500ms, rx 500ms',
       transform: `translate3d(-${cx}px, 0%, 0px)`,
+      rx: '40px',
       fill: 'orange'
     };
 
     const rightStyle = {
-      transition: 'transform 1200ms, fill 1500ms',
+      transition: 'transform 1000ms, fill 1500ms,  rx 500ms',
       transform: `translate3d(${cx}px, 0px, 0px)`,
+      rx: '40px',
       fill: 'cyan'
     };
 
     const stopStyle = {
       transition: 'transform 1000s, fill 8s',
-      transform: 'translateX(0%)',
+      transform: 'translateX(0px)',
       fill: 'white'
     };
 
     const shadowStyle = {
-      transition: `transform 1000ms, fill ${getShadowTiming()}`,
+      transition: `transform 600ms, fill ${getShadowTiming()}, rx 70ms 500ms`,
       transform: `translate3d(${getCircleX()}px, 0px, 0px)`,
+      rx: getShadowRx(),
       fill: getShadowColor()
     };
 
@@ -85,20 +85,37 @@ class Shadow extends React.Component {
 
     return (
       <svg width={this.props.xMax} height={this.props.yMax}>
+        <text
+          x={this.props.xMax - 410}
+          y={60}
+          fontFamily='helvetica'
+          fill='Brown'
+          stroke='Brown'
+          fontSize='30'
+          opacity='.6'
+        >
+          <tspan>Use Bracket Keys</tspan>
+      
+          <tspan dy='60' dx='-230' fontSize='40'>
+            &#x21e6; &nbsp; [ &nbsp; &nbsp; ] &nbsp; &#x21e8;
+          </tspan>
+        </text>
         <g>
-          <circle
+          <ellipse
             style={shadowStyle}
-            r="35px"
+            rx="35px"
+            ry="35px"
             cx={cx + 18}
             cy={cy}
             stroke='gray'
             fill='thistle'
             strokeWidth='2px'
           />
-          <circle
+          <ellipse
             style={shipStyle()}
             id="circle"
-            r="25px"
+            rx="25px"
+            ry="25px"
             cx={cx}
             cy={cy}
             stroke='gray'
@@ -156,7 +173,6 @@ class App extends React.Component {
       });
     }
   };
-
 
   render() {
     const appStyle = {
