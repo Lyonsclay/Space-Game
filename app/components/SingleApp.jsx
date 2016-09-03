@@ -1,10 +1,39 @@
 import React from 'react';
-import ReactDOM, { render } from 'react-dom';
+import ReactDOM, {
+  render
+} from 'react-dom';
+
+const Controls = (props) => {
+  const fadeStyle = {
+    transition: 'opacity 2s',
+    opacity: 0
+  };
+
+  return (
+    <text
+      x={props.xMax/2 - 125}
+      y={60}
+      fontFamily='helvetica'
+      fill='Brown'
+      stroke='Brown'
+      fontSize='30'
+      opacity='.6'
+      style={props.hideControls ? fadeStyle : {} }
+    >
+      <tspan>Use Bracket Keys</tspan>
+
+      <tspan dy='60' dx='-230' fontSize='40'>
+        &#x21e6; &nbsp; [ &nbsp; &nbsp; ] &nbsp; &#x21e8;
+      </tspan>
+    </text>
+  );
+};
 
 class Shadow extends React.Component {
+
   render() {
-    const cx = this.props.xMax/2;
-    const cy = this.props.yMax * 0.6;
+    const cx = this.props.xMax / 2;
+    const cy = this.props.yMax * 0.5;
 
     const getCircleX = () => {
       let circle = {};
@@ -85,21 +114,7 @@ class Shadow extends React.Component {
 
     return (
       <svg width={this.props.xMax} height={this.props.yMax}>
-        <text
-          x={this.props.xMax - 410}
-          y={60}
-          fontFamily='helvetica'
-          fill='Brown'
-          stroke='Brown'
-          fontSize='30'
-          opacity='.6'
-        >
-          <tspan>Use Bracket Keys</tspan>
-      
-          <tspan dy='60' dx='-230' fontSize='40'>
-            &#x21e6; &nbsp; [ &nbsp; &nbsp; ] &nbsp; &#x21e8;
-          </tspan>
-        </text>
+        <Controls xMax={this.props.xMax} hideControls={this.props.hideControls}/>
         <g>
           <ellipse
             style={shadowStyle}
@@ -111,6 +126,7 @@ class Shadow extends React.Component {
             fill='thistle'
             strokeWidth='2px'
           />
+
           <ellipse
             style={shipStyle()}
             id="circle"
@@ -138,7 +154,8 @@ class App extends React.Component {
     this.state = {
       xMax: width,
       yMax: height,
-      xVelocity: 0
+      xVelocity: 0,
+      hideControls: false
     };
   }
 
@@ -155,13 +172,15 @@ class App extends React.Component {
   handleKeypress = (e) => {
     if (e.keyCode === 91) {
       this.setState({
-        xVelocity: -1
+        xVelocity: -1,
+        hideControls: true
       });
     }
 
     if (e.keyCode === 93) {
       this.setState({
-        xVelocity: 1
+        xVelocity: 1,
+        hideControls: true
       });
     }
   };
