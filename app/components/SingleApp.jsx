@@ -20,8 +20,9 @@ const Controls = (props) => {
       opacity='.6'
       style={props.hideControls ? fadeStyle : {} }
     >
-      <tspan>Use Bracket Keys</tspan>
-
+      <tspan>
+        Use Bracket Keys
+      </tspan>
       <tspan dy='60' dx='-230' fontSize='40'>
         &#x21e6; &nbsp; [ &nbsp; &nbsp; ] &nbsp; &#x21e8;
       </tspan>
